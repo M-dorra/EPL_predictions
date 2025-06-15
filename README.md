@@ -14,16 +14,16 @@ A web application that predicts the result of a Premier League match between two
 5. Merged predictions to simulate matches between teams.
 6. Set up structure to compare mutual predictions in head-to-head matches.
 ## Installation
-*JupyerLab
-*Python 3.8+
-*Python packages
-  *pandas
-  *selenium
-  *BeautifulSoup
-  *scikit-learn
-  *fast-api
-  *uvicorn
-  *pydantic
+-JupyerLab
+-Python 3.8+
+-Python packages
+  -pandas
+  -selenium
+  -BeautifulSoup
+  -scikit-learn
+  -fast-api
+  -uvicorn
+  -pydantic
 ## To start fastapi backend server
 1. Go to backend directory in your command prompt
 2. Run this command: uvicorn main:app --reload
