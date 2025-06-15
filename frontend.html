@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premier League Match Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white shadow-lg rounded-xl p-8 max-w-xl w-full">
+        <h1 class="text-3xl font-bold text-center text-indigo-600 mb-6">⚽ EPL Match Predictor</h1>
+        
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Team 1</label>
+                <select id="team1"></select>
+            </div>
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Team 2</label>
+                <select id="team2"></select>
+            </div>
+        </div>
+
+        <button onclick="predict()" class="mt-6 bg-indigo-600 text-white w-full py-2 rounded hover:bg-indigo-700 transition">
+            Predict Result
+        </button>
+
+        <div id="result" class="text-center text-xl mt-6 font-semibold text-gray-800"></div>
+    </div>
+
+    <script>
+    let team1Select, team2Select; 
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("http://127.0.0.1:8000/teams");
+        const data = await response.json();
+
+        team1Select = document.getElementById("team1");
+        team2Select = document.getElementById("team2");
+
+        const placeholder1 = new Option("Select Team", "", true, true);
+        const placeholder2 = new Option("Select Team", "", true, true);
+        placeholder1.disabled = true;
+        placeholder2.disabled = true;
+
+        team1Select.add(placeholder1);
+        team2Select.add(placeholder2);
+
+        data.teams.forEach(team => {
+            const option1 = new Option(team, team);
+            const option2 = new Option(team, team);
+            team1Select.add(option1);
+            team2Select.add(option2);
+        });
+    });
+
+    async function predict() {
+        const team1 = team1Select.value;
+        const team2 = team2Select.value;
+
+        if (!team1 || !team2) {
+            document.getElementById("result").innerText = "⚠️ Please select both teams.";
+            return;
+        }
+
+        if (team1 === team2) {
+            document.getElementById("result").innerText = "⚠️ Choose two different teams.";
+            return;
+        }
+
+        const response = await fetch("http://127.0.0.1:8000/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ team1, team2 })
+        });
+
+        const data = await response.json();
+        document.getElementById("result").innerText = data.prediction;
+    }
+</script>
+
+</body>
+</html>
