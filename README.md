@@ -32,3 +32,5 @@ A web application that predicts the result of a Premier League match between two
 ### 2. Install dependencies
 ### 3. Run the backend server
 ### 4. Open the frontend
+
+![Screenshot 2025-06-15 225355](https://github.com/user-attachments/assets/0a870241-f78e-4da9-a392-911d20ce0960)
